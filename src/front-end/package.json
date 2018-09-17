@@ -19,5 +19,12 @@
   "bugs": {
     "url": "https://github.com/moevm/nosql2018-song_quotes/issues"
   },
-  "homepage": "https://github.com/moevm/nosql2018-song_quotes#readme"
+  "homepage": "https://github.com/moevm/nosql2018-song_quotes#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cross-env": "^5.2.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "xmlhttprequest": "^1.8.0"
+  }
 }
