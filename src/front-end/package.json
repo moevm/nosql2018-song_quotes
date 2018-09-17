@@ -1,0 +1,23 @@
+{
+  "name": "rhymes-front",
+  "version": "1.0.0",
+  "description": "This service is the front-end part of an rhymes-searcher application.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moevm/nosql2018-song_quotes.git"
+  },
+  "keywords": [
+    "rhymes",
+    "front"
+  ],
+  "author": "Anton Skiba",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moevm/nosql2018-song_quotes/issues"
+  },
+  "homepage": "https://github.com/moevm/nosql2018-song_quotes#readme"
+}
