@@ -14,7 +14,7 @@ services:
     restart: always
     ports:
     - 6379:6379
-
+ 
   redis-commander:
     image: rediscommander/redis-commander
     container_name: redis-commander
@@ -38,7 +38,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-
+ 
   mongo-express:
     image: mongo-express
     container_name: mongo-express-container
@@ -53,3 +53,9 @@ services:
     - mongodb
     depends_on:
     - mongodb
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.177.0.0/16 
