@@ -16,14 +16,6 @@ app.get("/", (req, res) => {
 
 app.get("/api", (req, res) => {
   console.log("python server");
-  // let xhttp = new XMLHttpRequest();
-  // xhttp.onreadystatechange = function() {
-  //   if (this.readyState == 4 && this.status == 200) {
-  //     res.send(xhttp.responseText);
-  //   }
-  // };
-  // xhttp.open("GET", "http://localhost:5000/ping", true);
-  // xhttp.send();
   fetch("http://localhost:5000/ping", {merthod: "GET"}).then((response) => {
     return response.text();
   }).then((response) => {
