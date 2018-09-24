@@ -61,11 +61,8 @@ def config_routes(app):
 
 def main():
     app = web.Application()
-
     config_routes(app)
-
     aiohttp_swagger.setup_swagger(app, swagger_url='/doc')
-
     web.run_app(app, host='0.0.0.0', port=5000)
 
 
