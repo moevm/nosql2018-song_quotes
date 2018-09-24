@@ -7,18 +7,6 @@
   <body>
     <button type="button" name="button" onclick="getReq()">Python server</button>
     <div id="pam"><div>
-    <script type="text/javascript">
-    function getReq() {
-      let xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function () {
-        if(this.readyState == 4 && this.status == 200) {
-          document.getElementById("pam").innerHTML = this.responseText;
-        }
-      };
-      xhttp.open("GET", "pythonServer", true);
-      xhttp.send();
-    }
-
-    </script>
+    <script src="/public/main.js" charset="utf-8"></script>
   </body>
 </html>
