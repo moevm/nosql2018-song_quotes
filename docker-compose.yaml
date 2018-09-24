@@ -5,6 +5,8 @@ services:
     build: ./src/back-end/
     container_name: python-api
     restart: always
+    volumes:
+    - ./src/back-end/:/opt/back-end/
     ports:
     - 5000:5000
 

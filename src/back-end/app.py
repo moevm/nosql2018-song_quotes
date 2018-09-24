@@ -3,6 +3,7 @@ from aiohttp import web
 from aiohttp.web_request import Request
 
 
+
 async def ping(request: Request):
     """
     ---
@@ -22,10 +23,30 @@ async def ping(request: Request):
     })
 
 
+async def is_word(request: Request):
+    """
+    ---
+    description: This end-point tests
+    tags:
+    - Health check
+    produces:
+    - application/json
+    responses:
+        "200":
+            description: successful operation.
+    """
+    word: str = request.match_info['word']
+    return web.json_response({
+        'word': word,
+        'result': word.isalpha()
+    })
+
+
 def main():
     app = web.Application()
     app.router.add_get('/ping', ping)
-    aiohttp_swagger.setup_swagger(app)
+    app.router.add_get('/word/{word}', is_word)
+    aiohttp_swagger.setup_swagger(app, swagger_url='/doc')
     web.run_app(app, host='0.0.0.0', port=5000)
 
 
