@@ -1,4 +1,9 @@
+import re
+from typing import List
+
 from phonetics import nysiis
+
+split_regex = re.compile(r"[\s\n.,?!()\[\]{}]+")
 
 RUSSIAN_LETTERS = frozenset('АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ')
 RUSSIAN_VOWELS = frozenset('АЕЁИОУЭЮЯ')
@@ -6,6 +11,10 @@ RUSSIAN_CONSONANTS = RUSSIAN_LETTERS - RUSSIAN_VOWELS
 ENGLISH_LETTERS = frozenset('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 ENGLISH_VOWELS = frozenset('AEIOUY')
 ENGLISH_CONSONANTS = ENGLISH_LETTERS - ENGLISH_VOWELS
+
+
+def tokenize(text: str) -> List[str]:
+    return split_regex.split(text)
 
 
 def is_russian_letter(letter: str):
@@ -22,6 +31,14 @@ def is_russian_word(word: str):
 
 def is_english_word(word: str):
     return all(map(is_english_letter, word.upper()))
+
+
+def is_russian_text(text: str):
+    return all(map(is_russian_word, tokenize(text)))
+
+
+def is_english_text(text: str):
+    return all(map(is_english_word, tokenize(text)))
 
 
 def is_word(word: str):
