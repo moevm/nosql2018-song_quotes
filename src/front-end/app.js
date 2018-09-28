@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/word/:word", (req, res) => {
-  fetch(`http://localhost:5000/word/${req.params.word}`, {merthod: "GET"}).then((response) => {
+  fetch(`http://localhost:5000/word/${req.params.word}`, {method: "GET"}).then((response) => {
     return response.text();
   }).then((response) => {
     res.send(response);
@@ -24,11 +24,15 @@ app.get("/word/:word", (req, res) => {
 
 app.get("/api", (req, res) => {
   console.log("python server");
-  fetch("http://localhost:5000/ping", {merthod: "GET"}).then((response) => {
+  fetch("http://localhost:5000/ping", {method: "GET"}).then((response) => {
     return response.text();
   }).then((response) => {
     res.send(response);
   });
+});
+
+app.get("/model", (req, res) => {
+  res.render("model");
 });
 
 app.listen(3000, function () {

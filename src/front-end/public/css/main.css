@@ -1,0 +1,49 @@
+body {
+  background-color: #0d335b;
+  width: 100%;
+  height: 100%;
+  font-family: 'Spectral', serif;
+}
+
+.main > .name {
+  margin: 2% 10% 3% 10%;
+  width: 80%;
+  font-size: 60px;
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+  color: #ffffff;
+}
+
+.main > .search {
+  width: 80%;
+  margin: 0 10%;
+}
+
+.search .searchField {
+  margin: 5px 0;
+}
+
+.main > .content {
+  height: 700px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 80%;
+  margin: 0 10%;
+}
+
+.animationCreate {
+  opacity: 0;
+  transition: 1s;
+  animation: show 1s 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
