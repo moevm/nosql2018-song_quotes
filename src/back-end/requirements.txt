@@ -1,2 +1,4 @@
-aiohttp==3.4.4
-aiohttp-swagger==1.0.5
+flask==1.0.2
+phonetics==1.0.5
+Flask-PyMongo==2.1.0
+dataclasses
