@@ -184,27 +184,39 @@ def get_songs():
 @app.route('/rhyme/<string:word>', methods=['GET'])
 def rhyme(word: str):
     limit = int(request.args.get('limit', '10'))
-    ending = convert(word)[-2:]
+    ending = None
+    if language(word) == 'ru':
+        ending = convert(word)[-2:]
+    elif language(word) == 'en':
+        ending = convert(word)[-2:]
 
     collection = get_corresponding_collection(word)
-    result = collection.find()
+    fetched_songs = collection.find()
 
     found = 0
-    songs = []
-    for _ in range(collection.count_documents({})):
-        song = result.next()
+    result = []
+    number_of_docs = collection.count_documents({})
+    for _ in range(number_of_docs):
+        song = fetched_songs.next()
+        song['_id'] = str(song['_id'])
+        words_found = set()
 
         for text_word in tokenize(song['text']):
             converted = convert(text_word)
-            if converted.endswith(ending):
-                song['_id'] = str(song['_id'])
-                song['text'] = song['text'].replace(text_word, '<div class="found">{}</div>'.format(text_word))
-                found += 1
-                songs.append(song)
+            if converted.endswith(ending) and text_word not in words_found:
+                words_found.add(text_word.lower())
+
+        if words_found:
+            found += 1
+            result.append({
+                'song': song,
+                'words': list(words_found)
+            })
+
         if found == limit:
             break
     return jsonify({
-        'songs': songs,
+        'result': result,
         'limit': limit,
         'found': found
     })
