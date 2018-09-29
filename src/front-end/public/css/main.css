@@ -2,7 +2,7 @@ body {
   background-color: #0d335b;
   width: 100%;
   height: 100%;
-  font-family: 'Spectral', serif;
+  font-family: "Spectral", serif;
 }
 
 .main > .name {
@@ -10,7 +10,7 @@ body {
   width: 80%;
   font-size: 60px;
   font-weight: bold;
-  font-style: italic;
+  /* font-style: italic; */
   text-align: center;
   color: #ffffff;
 }
