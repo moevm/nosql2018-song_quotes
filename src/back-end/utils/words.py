@@ -3,14 +3,14 @@ from typing import List
 
 from phonetics import nysiis
 
-split_regex = re.compile(r"[\s\n.,?!()\[\]{}]+")
-
-RUSSIAN_LETTERS = frozenset('АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ')
-RUSSIAN_VOWELS = frozenset('АЕЁИОУЭЮЯ')
+RUSSIAN_LETTERS = frozenset('АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЙ')
+RUSSIAN_VOWELS = frozenset('АЕЁИОУЭЮЯЫ')
 RUSSIAN_CONSONANTS = RUSSIAN_LETTERS - RUSSIAN_VOWELS
 ENGLISH_LETTERS = frozenset('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 ENGLISH_VOWELS = frozenset('AEIOUY')
 ENGLISH_CONSONANTS = ENGLISH_LETTERS - ENGLISH_VOWELS
+
+split_regex = re.compile("[^А-ЯA-Zа-яa-zёЁ]+")
 
 
 def tokenize(text: str) -> List[str]:
@@ -55,15 +55,11 @@ def language(word: str):
 
 
 def convert(word: str) -> str:
+    word = word.upper()
     if language(word) == 'en':
         return nysiis(word)
     elif language(word) == 'ru':
-        word = word.upper() \
-            .replace('Ю', 'У') \
-            .replace('Б', 'П') \
-            .replace('З', 'С') \
-            .replace('Д', 'Т') \
-            .replace('В', 'Ф') \
-            .replace('Г', 'К') \
-            .replace('ТС', 'Ц')
+        word = word.replace('Ю', 'У')
+        for letter in RUSSIAN_CONSONANTS - frozenset('Й'):
+            word = word.replace(letter, '')
         return word[:-1] + 'ЙО' if word[-1:] == 'Ё' else word
