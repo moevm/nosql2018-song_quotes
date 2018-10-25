@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 from flask_pymongo import PyMongo
 from flask_pymongo.wrappers import Collection
 
-from .utils.words import is_word, language, convert, is_english_text, is_russian_text, tokenize
+from utils.words import is_word, language, convert, is_english_text, is_russian_text, tokenize
 
 app = Flask(__name__)
 app.config.from_json("config.json")
@@ -186,7 +186,7 @@ def rhyme(word: str):
     limit = int(request.args.get('limit', '10'))
     ending = None
     if language(word) == 'ru':
-        ending = convert(word)[-2:]
+        ending = convert(word)[-1:]
     elif language(word) == 'en':
         ending = convert(word)[-2:]
 
