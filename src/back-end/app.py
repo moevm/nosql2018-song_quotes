@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 from flask_pymongo import PyMongo
 from flask_pymongo.wrappers import Collection
 
-from utils.words import is_word, language, convert, is_english_text, is_russian_text, tokenize
+from .utils.words import is_word, language, convert, is_english_text, is_russian_text, tokenize
 
 app = Flask(__name__)
 app.config.from_json("config.json")
@@ -202,7 +202,10 @@ def rhyme(word: str):
         words_found = set()
 
         for text_word in tokenize(song['text']):
-            converted = convert(text_word)
+            try:
+                converted = convert(text_word)
+            except IndexError:
+                pass # Some words jsut dont' work with this algorithm.
             if converted.endswith(ending) and text_word not in words_found:
                 words_found.add(text_word.lower())
 
