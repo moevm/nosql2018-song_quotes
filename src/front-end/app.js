@@ -2,19 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const fetch = require("node-fetch");
 
-//prohibited
-const music = require("musicmatch")({
-  apikey: "c413bce44143ce7acc4d0c63cc36840f"
-});
-
-// const LastFM = require("last-fm");
-// const lastfm = new LastFM("92033efd9835ad647c054cb224c9f1a8");
-//
-// lastfm.trackSearch({ q: "the greatest" }, (err, data) => {
-//   if (err) console.error(err);
-//   else console.log(data);
-// });
-
 let jsonParser = bodyParser.json();
 const app = express();
 
@@ -75,14 +62,42 @@ app.post("/song", jsonParser, (req, res) => {
 });
 
 app.get("/searchSong/:song", jsonParser, (req, res) => {
-  let song = req.params.song.split("$");
-  music
-    .matcherLyrics({ q_track: song[0], q_artist: song[1] })
-    .then(function(data) {
-      return JSON.stringify(data);
+  let song = req.params.song.split("&");
+  let artist = song[1]
+    .toLowerCase()
+    .split(/[^A-Za-zА-Яа-я]/)
+    .join("")
+    .replace("the", "");
+  let title = song[0]
+    .toLowerCase()
+    .split(/[^A-Za-zА-Яа-я]/)
+    .join("");
+  fetch(`http://azlyrics.com/lyrics/${artist}/${title}.html`, {
+    method: "GET"
+  })
+    .then(resp => {
+      return resp.text();
     })
-    .then(function(data) {
-      res.send(data);
+    .then(lyrics => {
+      let up_partition =
+        "<!-- Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. -->";
+      let down_partition = "<!-- MxM banner -->";
+      lyrics = lyrics.split(up_partition)[1];
+      lyrics = lyrics.split(down_partition)[0];
+      lyrics = lyrics
+        .split("<br>")
+        .join("")
+        .split("</br>")
+        .join("")
+        .split("</div>")
+        .join("")
+        .split("&quot")
+        .join('"')
+        .split("<i>")
+        .join("")
+        .split("</i>")
+        .join("");
+      res.send(lyrics);
     });
 });
 
