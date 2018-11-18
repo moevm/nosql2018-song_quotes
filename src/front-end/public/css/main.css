@@ -61,6 +61,26 @@ body {
   overflow-y: scroll;
 }
 
+.statistic {
+  height: 72px;
+  padding: 10px 30px;
+}
+
+#showStat {
+  background-color: #0d335b;
+  font-size: 30px;
+  float: right;
+  color: #ffd5d5;
+  display: none;
+  animation-delay: 2s;
+  animation: show 1s 1;
+  border: none;
+}
+
+#showStat:hover {
+  color: #ff9cb9;
+}
+
 @keyframes show {
   0% {
     opacity: 0;

@@ -23,6 +23,8 @@ searchArea.addEventListener("input", function() {
 });
 
 function search(inpWord) {
+  let statistic = document.getElementById("showStat");
+  statistic.style.display = "none";
   fetch(`/word/${inpWord}`, { method: "GET" })
     .then(response => {
       return response.json();
@@ -46,7 +48,7 @@ function search(inpWord) {
       let word = document.createElement("span");
       word.setAttribute("class", "animationCreate");
       word.appendChild(document.createTextNode(inpWord));
-      word.style.color = "#eeb57b";
+      word.style.color = "#ff9cb9";
       word.style.animationDelay = `${delay}s`;
       delay += 0.5;
       let field = document.querySelector(".content > #field");
@@ -65,6 +67,10 @@ function search(inpWord) {
               result.innerHTML = "Search result by ";
               result.appendChild(word);
 
+              //show statistics
+              statistic.style.display = "block";
+
+              //show cards
               field = document.createElement("div");
               field.setAttribute("id", "field");
               field.setAttribute("class", "animationCreate");

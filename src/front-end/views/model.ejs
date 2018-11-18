@@ -22,6 +22,54 @@
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
         <div class="main">
+          <!-- Statistic button -->
+          <div class="statistic">
+            <button id="showStat" type="button" class="btn" data-toggle="modal" data-target="#modalWindow">
+              <span>Statistics</span>
+              <img src="/public/img/statistic.gif" alt="" width="50px" height="50px">
+            </button>
+          </div>
+
+          <!-- Pop-up window -->
+          <div class="modal fade" id="modalWindow" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalTitle">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <span>Statistic 1</span><br>
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px"><br>
+                  <span>Statistic 2</span><br>
+                  <span>Statistic 3</span><br>
+                  <span>Statistic 4</span><br>
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px"><br>
+                  <span>Statistic 5</span><br>
+                  <span>Statistic 6</span><br>
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px"><br>
+                  <span>Statistic 7</span><br>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="name">
             <span>Search rhymes in songs</span>
           </div>
