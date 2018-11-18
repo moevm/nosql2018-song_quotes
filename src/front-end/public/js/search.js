@@ -1,10 +1,13 @@
 import Card from "./index/card.js";
+import makeStatWindow from "./index/statistic.js";
 
 let searchBtn = document.getElementById("searchBtn");
 let searchArea = document.getElementById("searchIpt");
+let statistic = document.getElementById("showStat");
 let cardCount = 1;
 let cards = [];
 let maxArrowValue;
+let statWindow = {};
 
 searchArea.addEventListener("change", function() {
   if (searchArea.value !== "") {
@@ -23,7 +26,6 @@ searchArea.addEventListener("input", function() {
 });
 
 function search(inpWord) {
-  let statistic = document.getElementById("showStat");
   statistic.style.display = "none";
   fetch(`/word/${inpWord}`, { method: "GET" })
     .then(response => {
@@ -69,6 +71,7 @@ function search(inpWord) {
 
               //show statistics
               statistic.style.display = "block";
+              statWindow.word = inpWord;
 
               //show cards
               field = document.createElement("div");
@@ -143,4 +146,8 @@ window.addEventListener("resize", function() {
     }
     field.style.width = `${520 * Math.min(cards.length, cardCount) + 20}px`;
   }
+});
+
+statistic.addEventListener("click", function() {
+  makeStatWindow(statWindow);
 });

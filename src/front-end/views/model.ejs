@@ -1,122 +1,128 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Model</title>
-    <link href="https://fonts.googleapis.com/css?family=Spectral" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="/public/css/main.css">
-  </head>
-  <body>
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Search</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Add a song</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Statistic</a>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        <div class="main">
-          <!-- Statistic button -->
-          <div class="statistic">
-            <button id="showStat" type="button" class="btn" data-toggle="modal" data-target="#modalWindow">
-              <span>Statistics</span>
-              <img src="/public/img/statistic.gif" alt="" width="50px" height="50px">
-            </button>
-          </div>
 
-          <!-- Pop-up window -->
-          <div class="modal fade" id="modalWindow" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="modalTitle">Modal title</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <span>Statistic 1</span><br>
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px"><br>
-                  <span>Statistic 2</span><br>
-                  <span>Statistic 3</span><br>
-                  <span>Statistic 4</span><br>
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px"><br>
-                  <span>Statistic 5</span><br>
-                  <span>Statistic 6</span><br>
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
-                  <img src="/public/img/statistic.png" alt="" width="50px" height="50px"><br>
-                  <span>Statistic 7</span><br>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
+<head>
+  <meta charset="utf-8">
+  <title>Model</title>
+  <link href="https://fonts.googleapis.com/css?family=Spectral" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="/public/css/main.css">
+</head>
 
-          <div class="name">
-            <span>Search rhymes in songs</span>
-          </div>
-          <div class="search">
-            <div class="row">
-              <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-xs-12 searchField">
-                <input type="text" id="searchIpt" class="form-control" placeholder="Write your word" value="">
-              </div>
-              <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-xs-12 searchField">
-                <button type="button" id="searchBtn" class="btn btn-block btn-light" disabled>Search</button>
-              </div>
+<body>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Search</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Add a song</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Statistic</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <div class="main">
+        <!-- Statistic button -->
+        <div class="statistic">
+          <button id="showStat" type="button" class="btn" data-toggle="modal" data-target="#modalWindow">
+            <span>Statistics</span>
+            <div class="statIcon">
+              <% include icons/statistic.ejs %>
             </div>
-          </div>
-          <div class="content" id="content"></div>
+          </button>
         </div>
-      </div>
-      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="form-group">
-          <div class="name">
-            <span>Add a new song</span>
-          </div>
-          <textarea class="form-control form-song" maxlength="50" rows="1" id="singer" placeholder="Singer"></textarea>
-          <textarea class="form-control form-song" maxlength="50" rows="1" id="title" placeholder="Title"></textarea>
-          <textarea class="form-control form-song" rows="27" id="songText" placeholder="Text"></textarea>
-          <div class="row btn-area">
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
-              <button type="button" class="btn btn-block btn-danger" id="btn-clear">Clear area</button>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
-              <button type="button" class="btn btn-block btn-light" id="btn-search">Search text</button>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
-              <button type="button" class="btn btn-block btn-light" id="btn-add">Add a song</button>
-            </div>
-          </div>
 
+        <!-- Pop-up window -->
+        <div class="modal fade" id="modalWindow" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <span>Statistic 1</span><br>
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px"><br>
+                <span>Statistic 2</span><br>
+                <span>Statistic 3</span><br>
+                <span>Statistic 4</span><br>
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px"><br>
+                <span>Statistic 5</span><br>
+                <span>Statistic 6</span><br>
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px">
+                <img src="/public/img/statistic.png" alt="" width="50px" height="50px"><br>
+                <span>Statistic 7</span><br>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <div class="name">
+          <span>Search rhymes in songs</span>
+        </div>
+        <div class="search">
+          <div class="row">
+            <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-xs-12 searchField">
+              <input type="text" id="searchIpt" class="form-control" placeholder="Write your word" value="">
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-xs-12 searchField">
+              <button type="button" id="searchBtn" class="btn btn-block btn-light" disabled>Search</button>
+            </div>
+          </div>
+        </div>
+        <div class="content" id="content"></div>
       </div>
-      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Okey</div>
     </div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <div class="form-group">
+        <div class="name">
+          <span>Add a new song</span>
+        </div>
+        <textarea class="form-control form-song" maxlength="50" rows="1" id="singer" placeholder="Singer"></textarea>
+        <textarea class="form-control form-song" maxlength="50" rows="1" id="title" placeholder="Title"></textarea>
+        <textarea class="form-control form-song" rows="27" id="songText" placeholder="Text"></textarea>
+        <div class="row btn-area">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <button type="button" class="btn btn-block btn-danger" id="btn-clear">Clear area</button>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <button type="button" class="btn btn-block btn-light" id="btn-search">Search text</button>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <button type="button" class="btn btn-block btn-light" id="btn-add">Add a song</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Okey</div>
+  </div>
 
 
-    <script type="module" src="/public/js/search.js" charset="utf-8"></script>
-    <script src="/public/js/addSong.js" charset="utf-8"></script>
-    <script type="module" src="/public/js/index/card.js" charset="utf-8"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-  </body>
+  <script type="module" src="/public/js/search.js" charset="utf-8"></script>
+  <script src="/public/js/addSong.js" charset="utf-8"></script>
+  <script type="module" src="/public/js/index/card.js" charset="utf-8"></script>
+  <script type="module" src="/public/js/index/statistic.js" charset="utf-8"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+
 </html>

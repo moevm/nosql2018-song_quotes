@@ -11,7 +11,7 @@ app.use("/public", express.static(__dirname + "/public"));
 
 app.get("/", (req, res) => {
   console.log("nodejs server");
-  res.render("index");
+  res.render("model");
 });
 
 app.get("/word/:word", (req, res) => {
