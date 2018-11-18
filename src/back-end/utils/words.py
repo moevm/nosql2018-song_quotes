@@ -54,6 +54,30 @@ def language(word: str):
         return None
 
 
+def ngram_lang(ngram: List[str]):
+    if not ngram:
+        return None
+    first = ngram[0]
+    lang = language(first)
+    for word in ngram[1:]:
+        next_lang = language(word)
+        if next_lang != lang:
+            return None
+    return lang
+
+
+def iter_ngrams(words: List[str], n: int):
+    for index, word in enumerate(words[:-n + 1]):
+        ngram = []
+        ngram.append(word)
+        for i in range(1, n):
+            ngram.append(words[index + i])
+        yield tuple(ngram)
+
+
+
+
+
 def convert(word: str) -> str:
     word = word.upper()
     if language(word) == 'en':
