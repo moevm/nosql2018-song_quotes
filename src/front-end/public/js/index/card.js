@@ -70,7 +70,7 @@ export default class Card {
           if (this.text[i][j].toLowerCase() == this.rhymes[k]) {
             hlTest = true;
             hl = document.createElement("span");
-            hl.style.backgroundColor = "#bdeda2";
+            hl.style.backgroundColor = "#ffd5d5";
           }
         }
         let wordByString = document.createTextNode(`${this.text[i][j]}`);

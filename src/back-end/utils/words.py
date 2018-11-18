@@ -10,11 +10,11 @@ ENGLISH_LETTERS = frozenset('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 ENGLISH_VOWELS = frozenset('AEIOUY')
 ENGLISH_CONSONANTS = ENGLISH_LETTERS - ENGLISH_VOWELS
 
-split_regex = re.compile("[^А-ЯA-Zа-яa-zёЁ]+")
+split_regex = re.compile(r'\W+')
 
 
 def tokenize(text: str) -> List[str]:
-    return split_regex.split(text)
+    return [token for token in split_regex.split(text) if token and token.isalpha()]
 
 
 def is_russian_letter(letter: str):

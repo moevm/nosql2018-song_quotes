@@ -14,15 +14,10 @@ btnSearchText.addEventListener("click", function() {
     song.text = songArea[1].value;
     fetch(`/searchSong/${song.text + "&" + song.artist}`, { method: "GET" })
       .then(response => {
-        return response.json();
+        return response.text();
       })
-      .then(response => {
-        console.log(response.message.body);
-        if (response.message.body.lyrics) {
-          songArea[2].value = response.message.body.lyrics.lyrics_body;
-        } else {
-          songArea[2].value = "Text not found :c";
-        }
+      .then(lyrics => {
+        songArea[2].value = lyrics;
       });
   }
 });
