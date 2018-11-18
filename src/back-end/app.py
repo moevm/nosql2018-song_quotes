@@ -238,7 +238,8 @@ def rhyme(ngram: str):
             found += 1
             result.append({
                 'song': song,
-                'words': [{'ngram': k, 'count': ngrams_found[k]} for k in ngrams_found]
+                'words': [' '.join(k) for k in ngrams_found],
+                'statistics': [{'ngram': k, 'count': ngrams_found[k]} for k in ngrams_found]
             })
 
         if found == limit:
