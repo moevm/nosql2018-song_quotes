@@ -67,7 +67,7 @@ def ngram_lang(ngram: List[str]):
 
 
 def iter_ngrams(words: List[str], n: int):
-    for index, word in enumerate(words[:-n + 1]):
+    for index, word in enumerate(words[:len(words) - n + 1]):
         ngram = []
         ngram.append(word)
         for i in range(1, n):
