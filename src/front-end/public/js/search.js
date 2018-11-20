@@ -58,70 +58,69 @@ function search(inpWord) {
         field.remove();
       }
 
-      if (response.result) {
-        fetch(`/rhyme/${inpWord}`, { method: "GET" })
-          .then(resp => {
-            return resp.json();
-          })
-          .then(resp => {
-            if (resp.found > 0) {
-              console.log(resp);
-              result.innerHTML = "Search result by ";
-              result.appendChild(word);
+      // if (response.result) {
+      fetch(`/rhyme/${inpWord}`, { method: "GET" })
+        .then(resp => {
+          return resp.json();
+        })
+        .then(resp => {
+          console.log(resp);
+          if (resp.found > 0) {
+            console.log(resp);
+            result.innerHTML = "Search result by ";
+            result.appendChild(word);
 
-              //show statistics
-              statistic.style.display = "block";
-              statWindow.word = inpWord;
+            //show statistics
+            statistic.style.display = "block";
+            statWindow.word = inpWord;
 
-              //show cards
-              field = document.createElement("div");
-              field.setAttribute("id", "field");
-              field.setAttribute("class", "animationCreate");
-              field.style.animationDelay = `${delay}s`;
-              field.style.marginTop = "70px";
-              field.style.marginRight = "auto";
-              field.style.marginLeft = "auto";
-              let celem = Math.floor(content.offsetWidth / 520);
-              cardCount = celem;
-              cards = [];
-              for (let i = 0; i < resp.result.length; i++) {
-                let song = {
-                  artist: resp.result[i].song.artist,
-                  title: resp.result[i].song.title,
-                  text: resp.result[i].song.text
-                    .split("\n")
-                    .map(function(item) {
-                      return item.split(/[^a-zA-ZА-Яа-яё]/);
-                    }),
-                  rhymes: resp.result[i].words,
-                  statistics: {
-                    allRhymes: 24, //всего рифм
-                    averageVarRhymes: 3.8, // среднее количество различных рифм
-                    totalWords: 98
-                  }
-                };
-                let card = new Card(song);
-                cards.push(card.createCard());
-              }
-              maxArrowValue = cards.length - cardCount;
-              if (maxArrowValue < 0) maxArrowValue = 0;
-              field.style.width = `${Math.min(cards.length, cardCount) * 520 +
-                20}px`;
-              field.style.borderRadius = "8px";
-              field.color = "#000000";
-              field.style.position = "relative";
-              field.fontSize = "10px";
-              content.appendChild(field);
-              showCards();
-            } else {
-              result.innerHTML = "Sorry, nothing found by ";
-              result.appendChild(word);
+            //show cards
+            field = document.createElement("div");
+            field.setAttribute("id", "field");
+            field.setAttribute("class", "animationCreate");
+            field.style.animationDelay = `${delay}s`;
+            field.style.marginTop = "70px";
+            field.style.marginRight = "auto";
+            field.style.marginLeft = "auto";
+            let celem = Math.floor(content.offsetWidth / 520);
+            cardCount = celem;
+            cards = [];
+            for (let i = 0; i < resp.result.length; i++) {
+              let song = {
+                artist: resp.result[i].song.artist,
+                title: resp.result[i].song.title,
+                text: resp.result[i].song.text.split("\n").map(function(item) {
+                  return item.split(/[^a-zA-ZА-Яа-яё]/);
+                }),
+                rhymes: resp.result[i].words,
+                statistics: {
+                  allRhymes: 24, //всего рифм
+                  averageVarRhymes: 3.8, // среднее количество различных рифм
+                  totalWords: 98
+                }
+              };
+              let card = new Card(song);
+              cards.push(card.createCard());
             }
-          });
-      } else {
-        result.innerHTML = "Sorry, is not a word ";
-        result.appendChild(word);
-      }
+            maxArrowValue = cards.length - cardCount;
+            if (maxArrowValue < 0) maxArrowValue = 0;
+            field.style.width = `${Math.min(cards.length, cardCount) * 520 +
+              20}px`;
+            field.style.borderRadius = "8px";
+            field.color = "#000000";
+            field.style.position = "relative";
+            field.fontSize = "10px";
+            content.appendChild(field);
+            showCards();
+          } else {
+            result.innerHTML = "Sorry, nothing found by ";
+            result.appendChild(word);
+          }
+        });
+      // } else {
+      //   result.innerHTML = "Sorry, is not a word ";
+      //   result.appendChild(word);
+      // }
     });
 }
 

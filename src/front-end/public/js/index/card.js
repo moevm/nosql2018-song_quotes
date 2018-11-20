@@ -67,7 +67,7 @@ export default class Card {
         let hlTest = false;
         let hl;
         for (let k = 0; k < this.rhymes.length; k++) {
-          if (this.text[i][j].toLowerCase() == this.rhymes[k]) {
+          if (this.text[i][j].toLowerCase() == this.rhymes[k].toLowerCase()) {
             hlTest = true;
             hl = document.createElement("span");
             hl.style.backgroundColor = "#ffd5d5";
