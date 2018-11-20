@@ -1,10 +1,11 @@
+import itertools
 from typing import Union
 
 from flask import Flask, request, jsonify
 from flask_pymongo import PyMongo
 from flask_pymongo.wrappers import Collection
 
-from .utils.words import is_word, language, convert, is_english_text, is_russian_text, tokenize
+from .utils.words import is_word, language, convert, is_english_text, is_russian_text, tokenize, ngram_lang, iter_ngrams
 
 app = Flask(__name__)
 app.config.from_json("config.json")
@@ -46,6 +47,23 @@ def is_word_handler(word: str):
     if is_word(word):
         result['language'] = language(word)
         result['sound'] = convert(word)
+    return jsonify(result)
+
+
+@app.route('/ngram/<string:ngram>')
+def is_ngram(ngram: str):
+    result = {
+        'ngram': ngram
+    }
+    words = tokenize(ngram)
+    lang = ngram_lang(words)
+
+    if all(map(is_word, words)) and lang:
+        result['result'] = True
+        result['language'] = lang
+        result['sound'] = [convert(word) for word in words]
+        return jsonify(result)
+    result['result'] = False
     return jsonify(result)
 
 
@@ -181,16 +199,21 @@ def get_songs():
     return jsonify(response), code
 
 
-@app.route('/rhyme/<string:word>', methods=['GET'])
-def rhyme(word: str):
+@app.route('/rhyme/<ngram>', methods=['GET'])
+def rhyme(ngram: str):
     limit = int(request.args.get('limit', '10'))
-    ending = None
-    if language(word) == 'ru':
-        ending = convert(word)[-1:]
-    elif language(word) == 'en':
-        ending = convert(word)[-2:]
+    words = tokenize(ngram)
 
-    collection = get_corresponding_collection(word)
+    endings = []
+    if ngram_lang(words) == 'ru':
+        endings += [convert(ending)[-1:] for ending in words]
+    elif ngram_lang(words) == 'en':
+        endings += [convert(ending)[-2:] for ending in words]
+
+    if ngram_lang(words) == 'en':
+        collection = get_english_collection()
+    elif ngram_lang(words) == 'ru':
+        collection = get_russian_collection()
     fetched_songs = collection.find()
 
     found = 0
@@ -199,21 +222,25 @@ def rhyme(word: str):
     for _ in range(number_of_docs):
         song = fetched_songs.next()
         song['_id'] = str(song['_id'])
-        words_found = set()
+        ngrams_found = {}
 
-        for text_word in tokenize(song['text']):
+        for ngram in iter_ngrams(tokenize(song['text']), len(endings)):
             try:
-                converted = convert(text_word)
+                converted = [convert(x) for x in ngram]
             except IndexError:
-                pass # Some words jsut dont' work with this algorithm.
-            if converted.endswith(ending) and text_word not in words_found:
-                words_found.add(text_word.lower())
+                pass  # Some words dont' work with this algorithm.
+            filtered = list(map(lambda x: x[1].endswith(x[0]), zip(endings, converted)))
+            filtered = all(filtered)
+            if filtered:
+                count = ngrams_found.get(ngram, 0)
+                ngrams_found[ngram] = count + 1
 
-        if words_found:
+        if ngrams_found:
             found += 1
             result.append({
                 'song': song,
-                'words': list(words_found)
+                'words': list(itertools.chain(*ngrams_found)),
+                'statistics': [{'ngram': k, 'count': ngrams_found[k]} for k in ngrams_found]
             })
 
         if found == limit:
