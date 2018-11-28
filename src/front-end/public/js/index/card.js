@@ -60,33 +60,35 @@ export default class Card {
     return statText;
   }
   showText() {
-    let songText = document.createElement("p");
-    for (let i = 0; i < this.text.length; i++) {
-      let songString = document.createElement("span");
-      for (let j = 0; j < this.text[i].length; j++) {
-        let hlTest = false;
-        let hl;
-        for (let k = 0; k < this.rhymes.length; k++) {
-          if (this.text[i][j].toLowerCase() == this.rhymes[k].toLowerCase()) {
-            hlTest = true;
-            hl = document.createElement("span");
-            hl.style.backgroundColor = "#ffd5d5";
-          }
-        }
-        let wordByString = document.createTextNode(`${this.text[i][j]}`);
-        if (hlTest) {
-          hl.appendChild(wordByString);
-          songString.appendChild(hl);
-        } else {
-          songString.appendChild(wordByString);
-        }
-        let space = document.createTextNode(" ");
-        songString.appendChild(space);
+    let rhymes = [];
+    let reg = /[.,\/#!$%\^&\*;:{}=\-_`()]/g;
+    for (let i = 0; i < this.rhymes.length; i++) {
+      let rhyme = this.rhymes[i].ngram.join(" ");
+      let upRStrings = rhyme.match(/[A-Z]+[a-z]+|[А-Я]+[а-я]+/g);
+      if (upRStrings) {
+        let upRFilter = upRStrings[upRStrings.length - 1];
+        rhyme = rhyme.split(`${upRFilter}`).join(`~${upRFilter}`);
       }
-      let br = document.createElement("br");
-      songText.appendChild(songString);
-      songText.appendChild(br);
+      rhymes.push(rhyme);
     }
+    let songText = document.createElement("p");
+    let songString = document.createElement("span");
+    let br = document.createElement("br");
+    for (let j = 0; j < rhymes.length; j++) {
+      this.text = this.text
+        .replace(reg, "")
+        .replace(/  /g, " ")
+        .split(`${rhymes[j]} `)
+        .join(`~~~${rhymes[j]}~~ `);
+    }
+
+    this.text = this.text
+      .split("~~~")
+      .join("<span style='background-color: #ffd5d5'>");
+    this.text = this.text.split("~~").join("</span>");
+    this.text = this.text.split("~").join("<br/>");
+    songString.innerHTML = this.text;
+    songText.appendChild(songString);
     return songText;
   }
 }

@@ -66,8 +66,10 @@ app.get("/searchSong/:song", jsonParser, (req, res) => {
   let artist = song[1]
     .toLowerCase()
     .split(/[^A-Za-zА-Яа-я]/)
-    .join("")
-    .replace("the", "");
+    .join("");
+
+  if (artist[0] == "t" && artist[1] == "h" && artist[2] == "e")
+    artist = artist.replace("the", "");
   let title = song[0]
     .toLowerCase()
     .split(/[^A-Za-zА-Яа-я]/)

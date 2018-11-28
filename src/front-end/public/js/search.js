@@ -89,10 +89,8 @@ function search(inpWord) {
               let song = {
                 artist: resp.result[i].song.artist,
                 title: resp.result[i].song.title,
-                text: resp.result[i].song.text.split("\n").map(function(item) {
-                  return item.split(/[^a-zA-ZА-Яа-яё]/);
-                }),
-                rhymes: resp.result[i].words,
+                text: resp.result[i].song.text.split("\n").join(" ~"),
+                rhymes: resp.result[i].statistics,
                 statistics: {
                   allRhymes: 24, //всего рифм
                   averageVarRhymes: 3.8, // среднее количество различных рифм
