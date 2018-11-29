@@ -58,7 +58,6 @@ function search(inpWord) {
         field.remove();
       }
 
-      // if (response.result) {
       fetch(`/rhyme/${inpWord}`, { method: "GET" })
         .then(resp => {
           return resp.json();
@@ -73,6 +72,7 @@ function search(inpWord) {
             //show statistics
             statistic.style.display = "block";
             statWindow.word = inpWord;
+            statWindow.result = resp.result;
 
             //show cards
             field = document.createElement("div");
@@ -87,15 +87,13 @@ function search(inpWord) {
             cards = [];
             for (let i = 0; i < resp.result.length; i++) {
               let song = {
+                searchParam: inpWord,
+                songId: resp.result[i].song._id,
                 artist: resp.result[i].song.artist,
+                words: resp.result[i].words,
                 title: resp.result[i].song.title,
                 text: resp.result[i].song.text.split("\n").join(" ~"),
-                rhymes: resp.result[i].statistics,
-                statistics: {
-                  allRhymes: 24, //всего рифм
-                  averageVarRhymes: 3.8, // среднее количество различных рифм
-                  totalWords: 98
-                }
+                rhymes: resp.result[i].statistics
               };
               let card = new Card(song);
               cards.push(card.createCard());
@@ -115,10 +113,6 @@ function search(inpWord) {
             result.appendChild(word);
           }
         });
-      // } else {
-      //   result.innerHTML = "Sorry, is not a word ";
-      //   result.appendChild(word);
-      // }
     });
 }
 
