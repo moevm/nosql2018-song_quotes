@@ -133,6 +133,31 @@ export default function makeStatWindow(statWindow) {
     }
   }
 
+  //pie chart
+  let chart = document.createElement("canvas");
+  let ctx = chart.getContext("2d");
+  chart.style.height = "500px";
+  let colors = [];
+  for (let i = 0; i < result.length; i++) {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+    colors.push("#" + r.toString(16) + g.toString(16) + b.toString(16));
+  }
+  let pieChart = new Chart(ctx, {
+    type: "pie",
+    data: {
+      datasets: [
+        {
+          data: result.map(item => item.statistics.length),
+          backgroundColor: colors
+        }
+      ],
+      labels: result.map(item => `${item.song.artist} - ${item.song.title}`)
+    }
+  });
+
+  resBody.appendChild(chart);
   resBody.appendChild(table);
 
   resultText.appendChild(resBody);
