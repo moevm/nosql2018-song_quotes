@@ -178,7 +178,7 @@ export default class Card {
     let regExpArrOfRhymes = [];
 
     for (let i = 0; i < this.rhymes.length; i++) {
-      let regRhyme = "[^A-ZА-Я]+";
+      let regRhyme = "[^A-ZА-ЯЁ]+";
       for (let j = 0; j < this.rhymes[i].ngram.length; j++) {
         regRhyme += this.rhymes[i].ngram[j] + "[^A-ZА-ЯЁ]+";
       }
@@ -206,7 +206,7 @@ function cutAndHighlight(text, words) {
 
     pieces[i] = pieces[i]
       .split("~~~")
-      .join("<span style='background-color: #ff9cb9'>");
+      .join("<span style='background-color: rgba(250, 184, 203, 0.67)'>");
     pieces[i] = pieces[i].split("~~").join("</span>");
 
     cutText += pieces[i].includes("</span>") ? pieces[i] + `\n...\n` : "";
