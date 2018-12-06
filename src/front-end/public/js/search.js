@@ -63,7 +63,6 @@ function search(inpWord) {
           return resp.json();
         })
         .then(resp => {
-          console.log(resp);
           if (resp.found > 0) {
             console.log(resp);
             result.innerHTML = "Search result by ";
@@ -92,7 +91,7 @@ function search(inpWord) {
                 artist: resp.result[i].song.artist,
                 words: resp.result[i].words,
                 title: resp.result[i].song.title,
-                text: resp.result[i].song.text.split("\n").join(" ~"),
+                text: resp.result[i].song.text,
                 rhymes: resp.result[i].statistics
               };
               let card = new Card(song);

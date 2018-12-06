@@ -59,7 +59,7 @@ export default class Card {
     let statText = document.createElement("div");
     // Found rhymes with different words
     let totalRhymesValue = this.statistics.length;
-    let words = this.unique(this.words);
+    let words = unique(this.words);
     let varWordsValue = words.length;
     let wordsString = words.join(", ");
     wordsString += ".";
@@ -171,46 +171,61 @@ export default class Card {
     statistic.appendChild(statContainer);
     return statistic;
   }
-  unique(arr) {
-    var obj = {};
 
-    for (var i = 0; i < arr.length; i++) {
-      var str = arr[i].toLowerCase();
-      obj[str] = true;
-    }
-
-    return Object.keys(obj);
-  }
   showText() {
-    let rhymes = [];
-    let reg = /[.+,\/#!$%\^&\*;:{}=\-_`()]/g;
+    //console.log(this.rhymes);
+    let testText = this.text;
+    let regExpArrOfRhymes = [];
+
     for (let i = 0; i < this.rhymes.length; i++) {
-      let rhyme = this.rhymes[i].ngram.join(" ");
-      let upRStrings = rhyme.match(/[A-Z]+[a-z]+|[А-Я]+[а-я]+/g);
-      if (upRStrings) {
-        let upRFilter = upRStrings[upRStrings.length - 1];
-        rhyme = rhyme.split(`${upRFilter}`).join(`~${upRFilter}`);
+      let regRhyme = "[^A-ZА-ЯЁ]+";
+      for (let j = 0; j < this.rhymes[i].ngram.length; j++) {
+        regRhyme += this.rhymes[i].ngram[j] + "[^A-ZА-ЯЁ]+";
       }
-      rhymes.push(rhyme);
-    }
-    let songText = document.createElement("p");
-    let songString = document.createElement("span");
-    let br = document.createElement("br");
-    for (let j = 0; j < rhymes.length; j++) {
-      this.text = this.text
-        .replace(reg, "")
-        .replace(/  /g, " ")
-        .split(`${rhymes[j]} `)
-        .join(`~~~${rhymes[j]}~~ `);
+      regExpArrOfRhymes.push(new RegExp(regRhyme, "gi"));
     }
 
-    this.text = this.text
-      .split("~~~")
-      .join("<span style='background-color: #ffd5d5'>");
-    this.text = this.text.split("~~").join("</span>");
-    this.text = this.text.split("~").join("<br/>");
-    songString.innerHTML = this.text;
-    songText.appendChild(songString);
+    this.text = cutAndHighlight(this.text, regExpArrOfRhymes);
+
+    let songText = document.createElement("span");
+    songText.innerHTML = this.text.split("\n").join("<br/>");
     return songText;
   }
+}
+
+function cutAndHighlight(text, words) {
+  let pieces = text.split("\n");
+  let cutText = "";
+  for (let i = 0; i < pieces.length - 2; i++) {
+    pieces[i] += "\n" + pieces[i + 1] + "\n" + pieces[i + 2];
+    for (let j = 0; j < words.length; j++) {
+      if (words[j].test(pieces[i])) {
+        pieces[i] = pieces[i].replace(words[j], " ~~~ $& ~~ ");
+      }
+    }
+
+    pieces[i] = pieces[i]
+      .split("~~~")
+      .join("<span style='background-color: rgba(250, 184, 203, 0.67)'>");
+    pieces[i] = pieces[i].split("~~").join("</span>");
+
+    cutText += pieces[i].includes("</span>") ? pieces[i] + `\n...\n` : "";
+  }
+
+  cutText = cutText.split("\n...\n");
+
+  cutText = unique(cutText);
+
+  return cutText.join("\n...\n");
+}
+
+function unique(arr) {
+  var obj = {};
+
+  for (var i = 0; i < arr.length; i++) {
+    var str = arr[i];
+    obj[str] = true;
+  }
+
+  return Object.keys(obj);
 }
