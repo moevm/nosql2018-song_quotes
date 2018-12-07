@@ -63,42 +63,18 @@ app.post("/song", jsonParser, (req, res) => {
 
 app.get("/searchSong/:song", jsonParser, (req, res) => {
   let song = req.params.song.split("&");
-  let artist = song[1]
-    .toLowerCase()
-    .split(/[^A-Za-zА-Яа-я]/)
-    .join("");
-
-  if (artist[0] == "t" && artist[1] == "h" && artist[2] == "e")
-    artist = artist.replace("the", "");
-  let title = song[0]
-    .toLowerCase()
-    .split(/[^A-Za-zА-Яа-я]/)
-    .join("");
-  fetch(`http://azlyrics.com/lyrics/${artist}/${title}.html`, {
-    method: "GET"
-  })
+  fetch(
+    `http://localhost:5000/find?title=${encodeURI(song[0])}&artist=${encodeURI(
+      song[1]
+    )}`,
+    {
+      method: "GET"
+    }
+  )
     .then(resp => {
-      return resp.text();
+      return resp.json();
     })
     .then(lyrics => {
-      let up_partition =
-        "<!-- Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. -->";
-      let down_partition = "<!-- MxM banner -->";
-      lyrics = lyrics.split(up_partition)[1];
-      lyrics = lyrics.split(down_partition)[0];
-      lyrics = lyrics
-        .split("<br>")
-        .join("")
-        .split("</br>")
-        .join("")
-        .split("</div>")
-        .join("")
-        .split("&quot")
-        .join('"')
-        .split("<i>")
-        .join("")
-        .split("</i>")
-        .join("");
       res.send(lyrics);
     });
 });

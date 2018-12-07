@@ -14,10 +14,11 @@ btnSearchText.addEventListener("click", function() {
     song.text = songArea[1].value;
     fetch(`/searchSong/${song.text + "&" + song.artist}`, { method: "GET" })
       .then(response => {
-        return response.text();
+        return response.json();
       })
       .then(lyrics => {
-        songArea[2].value = lyrics;
+        console.log(lyrics);
+        songArea[2].value = lyrics.text;
       });
   }
 });
