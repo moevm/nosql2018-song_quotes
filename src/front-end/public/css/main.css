@@ -81,6 +81,11 @@ body {
   color: #ff9cb9;
 }
 
+.export {
+  float: right;
+  margin-left: auto;
+  margin-right: 50px;
+}
 .statIcon {
   display: inline-block;
 }

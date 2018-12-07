@@ -38,7 +38,17 @@ app.get("/rhyme/:word", (req, res) => {
     });
 });
 
-app.get("/api/:song", jsonParser, (req, res) => {});
+app.get("/export", (req, res) => {
+  fetch(`http://localhost:5000/songs`, {
+    method: "GET"
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(response => {
+      res.send(response);
+    });
+});
 
 app.get("/model", (req, res) => {
   res.render("model");
