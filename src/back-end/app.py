@@ -1,5 +1,6 @@
 import itertools
 
+import lyricscorpora as lc
 from flask import Flask, request, jsonify
 from flask_caching import Cache
 from flask_pymongo import PyMongo
@@ -29,6 +30,29 @@ def ping_handler():
         'to': request.host,
         'status': 'ok'
     })
+
+
+@app.route('/find')
+def find_song():
+    title = request.args.get('title')
+    artist = request.args.get('artist')
+    result = {
+        'title': title,
+        'artist': artist
+    }
+    code = 200
+
+    if not artist or not title:
+        create_error_message(result, 'Not enough info fro search.')
+        code = 404
+
+    song = lc.Song(song_title=title, song_artist=artist)
+    lyrics = song.get_lyrics()
+    if type(lyrics) != str:
+        lyrics = lyrics()
+    result['text'] = lyrics
+
+    return jsonify(result), code
 
 
 @app.route('/word/<string:word>')
