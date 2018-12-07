@@ -179,43 +179,27 @@ def get_song(id: str):
     return jsonify(response), code
 
 
-@app.route('/song', methods=['GET'])
+@app.route('/songs', methods=['GET'])
 def get_songs():
-    size = int(request.args.get('size', '10'))
-    page = int(request.args.get('page', '1'))
-    lang = str(request.args.get('lang', 'en')).lower()
-    to_skip = (page - 1) * size
-
     response = {
         'status': True,
-        'size': size,
-        'page': page,
-        'lang': lang
     }
     code = 200
-
-    if lang not in ['en', 'ru']:
-        code = create_error_message(response, 'Cannot determine language.')
-        return jsonify(response), code
 
     collection: Collection = get_collection()
     count = collection.count_documents({})
     response['count'] = count
-    if 5 < size < 50 and page > 0 and to_skip <= count:
-        response['songs'] = []
-        skip = collection.find({'lang': lang}).skip(to_skip)
-        for _ in range(count - to_skip):
-            item = skip.next()
-            item['_id'] = str(item['_id'])
-            response['songs'].append(item)
-    else:
-        code = create_error_message(response, 'Wrong size')
-
+    response['songs'] = []
+    skip = collection.find({})
+    for _ in range(count):
+        item = skip.next()
+        item['_id'] = str(item['_id'])
+        response['songs'].append(item)
     return jsonify(response), code
 
 
 @app.route('/rhyme/<ngram>', methods=['GET'])
-@cache.cached(timeout=30, key_prefix='rhymes_')
+@cache.cached(timeout=30, key_prefix='rhymes_%s')
 def rhyme(ngram: str):
     limit = int(request.args.get('limit', '10'))
     words = tokenize(ngram)
@@ -233,7 +217,11 @@ def rhyme(ngram: str):
     result = []
     number_of_docs = collection.count_documents({})
     for _ in range(number_of_docs):
-        song = fetched_songs.next()
+        try:
+            song = fetched_songs.next()
+        except StopIteration:
+            break
+
         song['_id'] = str(song['_id'])
         ngrams_found = {}
 

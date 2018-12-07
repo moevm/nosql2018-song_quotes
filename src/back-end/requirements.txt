@@ -4,3 +4,4 @@ Flask-PyMongo==2.1.0
 dataclasses
 flask-caching
 redis
+lyricscorpora
