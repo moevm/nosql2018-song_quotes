@@ -1,32 +1,25 @@
 import itertools
-from typing import Union
 
 from flask import Flask, request, jsonify
+from flask_caching import Cache
 from flask_pymongo import PyMongo
 from flask_pymongo.wrappers import Collection
 
-from .utils.words import is_word, language, convert, is_english_text, is_russian_text, tokenize, ngram_lang, iter_ngrams
+from .utils.words import is_word, language, convert, tokenize, ngram_lang, iter_ngrams
 
 app = Flask(__name__)
 app.config.from_json("config.json")
 mongo = PyMongo(app)
+cache = Cache(app, config={
+    'CACHE_TYPE': 'redis',
+    'CACHE_REDIS_HOST': 'localhost',
+    'CACHE_REDIS_PORT': 6379
+})
 
 
-def get_english_collection() -> Collection:
-    return mongo.db.english
-
-
-def get_russian_collection() -> Collection:
-    return mongo.db.russian
-
-
-def get_corresponding_collection(text: str) -> Union[Collection, None]:
-    if is_english_text(text):
-        return get_english_collection()
-    elif is_russian_text(text):
-        return get_russian_collection()
-    else:
-        return None
+def get_collection():
+    collection: Collection = mongo.db.songs
+    return collection
 
 
 @app.route('/ping', methods=['GET'])
@@ -78,8 +71,9 @@ def create_song():
     code = 200
 
     if is_enough_info_for_song(song):
-        collection = get_corresponding_collection(song['text'])
+        collection = get_collection()
         if collection:
+            song['lang'] = ngram_lang(tokenize(song['text']))
             collection.insert_one(song)
             song['_id'] = str(song['_id'])
             response['song'] = song
@@ -101,8 +95,9 @@ def update_song(id: str):
     code = 200
 
     if is_enough_info_for_song(song):
-        collection = get_corresponding_collection(song['text'])
+        collection: Collection = get_collection()
         if collection:
+            song['lang'] = ngram_lang(tokenize(song['text']))
             result = collection.update_one({
                 '_id': id
             }, {
@@ -135,8 +130,7 @@ def delete_song(id: str):
     code = 200
 
     filter = {'_id': id}
-    deleted = get_russian_collection().delete_one(filter).deleted_count + get_english_collection().delete_one(
-        filter).deleted_count
+    deleted = get_collection().delete_one(filter).deleted_count
     if not deleted:
         code = 404
         response['status'] = False
@@ -152,7 +146,7 @@ def get_song(id: str):
     code = 200
 
     filter = {'_id': id}
-    result: dict = get_russian_collection().find_one(filter) or get_english_collection().find_one(filter)
+    result: dict = get_collection().find_one(filter)
     if not result:
         code = 404
         response['status'] = False
@@ -176,19 +170,16 @@ def get_songs():
     }
     code = 200
 
-    if lang == 'en':
-        collection = get_english_collection()
-    elif lang == 'ru':
-        collection = get_russian_collection()
-    else:
+    if lang not in ['en', 'ru']:
         code = create_error_message(response, 'Cannot determine language.')
         return jsonify(response), code
 
+    collection: Collection = get_collection()
     count = collection.count_documents({})
     response['count'] = count
     if 5 < size < 50 and page > 0 and to_skip <= count:
         response['songs'] = []
-        skip = collection.find().skip(to_skip)
+        skip = collection.find({'lang': lang}).skip(to_skip)
         for _ in range(count - to_skip):
             item = skip.next()
             item['_id'] = str(item['_id'])
@@ -200,22 +191,20 @@ def get_songs():
 
 
 @app.route('/rhyme/<ngram>', methods=['GET'])
+@cache.cached(timeout=30, key_prefix='rhymes_')
 def rhyme(ngram: str):
     limit = int(request.args.get('limit', '10'))
     words = tokenize(ngram)
 
     endings = []
-    if ngram_lang(words) == 'ru':
+    lang = ngram_lang(words)
+    if lang == 'ru':
         endings += [convert(ending)[-1:] for ending in words]
-    elif ngram_lang(words) == 'en':
+    elif lang == 'en':
         endings += [convert(ending)[-2:] for ending in words]
 
-    if ngram_lang(words) == 'en':
-        collection = get_english_collection()
-    elif ngram_lang(words) == 'ru':
-        collection = get_russian_collection()
-    fetched_songs = collection.find()
-
+    collection: Collection = get_collection()
+    fetched_songs = collection.find({'lang': lang})
     found = 0
     result = []
     number_of_docs = collection.count_documents({})

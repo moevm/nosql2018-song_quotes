@@ -75,9 +75,6 @@ def iter_ngrams(words: List[str], n: int):
         yield tuple(ngram)
 
 
-
-
-
 def convert(word: str) -> str:
     word = word.upper()
     if language(word) == 'en':
