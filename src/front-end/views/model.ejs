@@ -17,8 +17,8 @@
     <li class="nav-item">
       <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Add a song</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link disabled" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Statistic</a>
+    <li class="nav-item export">
+      <button id="export" type="button" class="btn btn-light">Export songs</button>
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">
@@ -89,7 +89,6 @@
             <button type="button" class="btn btn-block btn-light" id="btn-add">Add a song</button>
           </div>
         </div>
-
       </div>
     </div>
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Okey</div>
@@ -98,6 +97,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
   <script type="module" src="/public/js/search.js" charset="utf-8"></script>
   <script src="/public/js/addSong.js" charset="utf-8"></script>
+  <script src="/public/js/saveSongs.js" charset="utf-8"></script>
   <script type="module" src="/public/js/index/card.js" charset="utf-8"></script>
   <script type="module" src="/public/js/index/statistic.js" charset="utf-8"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
