@@ -1,5 +1,8 @@
 # nosql2018-song_quotes
 
+## Screencast:
+https://drive.google.com/open?id=12oLoSRi9JEknDU_ZWWoAFpkc2WzuhX2l
+
 ## Тема курсовой
 
 Поиск подходящих цитат из песен
